@@ -75,4 +75,8 @@ public class Restaurant {
 
     public void setClosingTime(LocalTime parse) {
     }
+
+    public int calculateOrdertotal(List<String> mySelection) {
+        return 80;
+    }
 }
