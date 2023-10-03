@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.time.LocalTime;
 
@@ -8,18 +9,31 @@ import static org.junit.jupiter.api.Assertions.*;
 class RestaurantTest {
     Restaurant restaurant;
     //REFACTOR ALL THE REPEATED LINES OF CODE
-
-    //>>>>>>>>>>>>>>>>>>>>>>>>>OPEN/CLOSED<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    //-------FOR THE 2 TESTS BELOW, YOU MAY USE THE CONCEPT OF MOCKING, IF YOU RUN INTO ANY TROUBLE
+     @BeforeEach
+     public void mockingRestaurant(){
+         restaurant = Mockito.spy(Restaurant.class);
+         restaurant.setOpeningTime(LocalTime.parse("08:30:00"));
+         restaurant.setClosingTime(LocalTime.parse("22:30:00"));
+         restaurant.addToMenu("Sweet corn soup",119);
+         restaurant.addToMenu("Vegetable lasagne", 269);
+         restaurant.addToMenu("Apple juice",40);
+         restaurant.addToMenu("Mango juice",40);
+    }
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
         //WRITE UNIT TEST CASE HERE
+        LocalTime tempGetTime = LocalTime.parse("09:30:00");
+        Mockito.when(restaurant.getCurrentTime()).thenReturn(tempGetTime);
+        assertTrue(restaurant.isRestaurantOpen());
+
     }
 
     @Test
     public void is_restaurant_open_should_return_false_if_time_is_outside_opening_and_closing_time(){
         //WRITE UNIT TEST CASE HERE
-
+     LocalTime tempGetTime = LocalTime.parse("07:30:00");
+     Mockito.when(restaurant.getCurrentTime()).thenReturn(tempGetTime);
+     assertFalse(restaurant.isRestaurantOpen());
     }
 
     //<<<<<<<<<<<<<<<<<<<<<<<<<OPEN/CLOSED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
